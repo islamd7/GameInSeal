@@ -4,7 +4,7 @@ define Player(X, Y)
 	player = {
 		body  = rl.Rectangle(X, Y, 80, 80), // x = 360, y = 500
 		tex   = rl.load_texture("bucket.png"),
-		speed = 4
+		speed = 5
 	}
 	
 	player.draw = define(self)
