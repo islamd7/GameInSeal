@@ -24,6 +24,7 @@ for i in ITEM_COUNT
     push(pool, Falling_items(900, 650))
 
 running     = true
+collision_active      = true
 spawn_timer = 0
 spawn_index = 0
 while running and not rl.window_should_close()
@@ -31,7 +32,7 @@ while running and not rl.window_should_close()
 
     if spawn_index < ITEM_COUNT
         spawn_timer += 1
-        if spawn_timer = 100
+        if spawn_timer >= 100
             item = pool[spawn_index]
             item.body.x = rand_range(20, WIDTH - 20)
             item.body.y = 0
@@ -44,17 +45,23 @@ while running and not rl.window_should_close()
     rl.clear_background(rl.colors.WHITE)
 
     player..draw()
+    collision_active = true
     for falling_item in falling_items
+        collision_active = true
         falling_item..draw()
         falling_item..move()
-        if check_collision(falling_item, player)
+        if check_collision(falling_item, player) and collision_active
             print("Collision has been detected.")
             SCORE += 1
-
-        if falling_item.body.y > HEIGHT
-            SCORE -= 1
             falling_item.body.x = rand_range(20, WIDTH - 20)
             falling_item.body.y = 0
+            collision_active = false
+
+
+        if falling_item.body.y > HEIGHT
+            falling_item.body.x = rand_range(20, WIDTH - 20)
+            falling_item.body.y = 0
+            SCORE -= 1
 
         if falling_item.body.y == 700
             print("kajda")
@@ -63,9 +70,10 @@ while running and not rl.window_should_close()
 
     player..move()
 
+
     if SCORE < 0
         print("Game over")
-
+        running = false
     print(SCORE)
 
 rl.close_window()
