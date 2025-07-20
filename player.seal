@@ -1,0 +1,20 @@
+include raylib as rl
+
+define Player(X, Y)
+	player = {
+		body  = rl.Rectangle(X, Y, 80, 80), // x = 360, y = 500
+		tex   = rl.load_texture("bucket.png"),
+		speed = 4
+	}
+	
+	player.draw = define(self)
+		rl.draw_rectangle(self.body.x, self.body.y, self.body.w, self.body.h, rl.colors.BLANK)
+		src_rec  = rl.Rectangle(0, 0, 16, 16)
+		dest_rec = self.body
+		rl.draw_texture(self.tex, src_rec, dest_rec, rl.colors.WHITE)
+	
+	player.move = define(self)
+		if rl.is_key_down(rl.keys.KEY_LEFT) and self.body.x > 0 then self.body.x -= self.speed
+		if rl.is_key_down(rl.keys.KEY_RIGHT) and self.body.x < 719 then self.body.x += self.speed
+	
+	return player

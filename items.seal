@@ -1,0 +1,19 @@
+include raylib as rl
+include randrange: rand_range
+
+define Falling_items(X, Y)
+    falling_items = {
+        body  = rl.Rectangle(X, Y, 32, 32),
+        tex   = rl.load_texture("stone.png"),
+        speed = 3
+    }
+    falling_items.draw = define(self)
+        rl.draw_rectangle(self.body.x, self.body.y, self.body.w, self.body.h, rl.colors.BLANK)
+        src_rec  = rl.Rectangle(0, 0, 8, 8)
+        dest_rec = self.body
+        rl.draw_texture(self.tex, src_rec, dest_rec, rl.colors.WHITE)
+
+    falling_items.move = define(self)
+        self.body.y += self.speed
+    
+    return falling_items

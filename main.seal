@@ -1,0 +1,71 @@
+include raylib as rl
+include config: WIDTH, HEIGHT, TITLE, FPS, ITEM_COUNT
+include player: Player
+include items: Falling_items
+include randrange: rand_range
+
+SCORE = 0
+ 
+rl.init_window(WIDTH, HEIGHT, TITLE)
+rl.set_fps(FPS)
+
+player        = Player(360, 500)
+falling_items = []
+pool          = []
+
+define check_collision(rec1, rec2)
+    if rec1.body.x < rec2.body.x + rec2.body.w and rec1.body.x > rec2.body.x and rec1.body.y < rec2.body.y + rec2.body.h and rec1.body.y > rec2.body.y
+            return true
+    else
+        return false
+
+
+for i in ITEM_COUNT
+    push(pool, Falling_items(900, 650))
+
+running     = true
+spawn_timer = 0
+spawn_index = 0
+while running and not rl.window_should_close()
+    dt = rl.delta_time()
+
+    if spawn_index < ITEM_COUNT
+        spawn_timer += 1
+        if spawn_timer = 100
+            item = pool[spawn_index]
+            item.body.x = rand_range(20, WIDTH - 20)
+            item.body.y = 0
+            push(falling_items, item)
+            spawn_index += 1
+            spawn_timer = 0
+
+
+    rl.begin_drawing()
+    rl.clear_background(rl.colors.WHITE)
+
+    player..draw()
+    for falling_item in falling_items
+        falling_item..draw()
+        falling_item..move()
+        if check_collision(falling_item, player)
+            print("Collision has been detected.")
+            SCORE += 1
+
+        if falling_item.body.y > HEIGHT
+            SCORE -= 1
+            falling_item.body.x = rand_range(20, WIDTH - 20)
+            falling_item.body.y = 0
+
+        if falling_item.body.y == 700
+            print("kajda")
+
+    rl.end_drawing()
+
+    player..move()
+
+    if SCORE < 0
+        print("Game over")
+
+    print(SCORE)
+
+rl.close_window()
