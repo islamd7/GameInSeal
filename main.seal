@@ -75,7 +75,7 @@ while running and not rl.window_should_close()
                         falling_item.return_timer = 0
                         SCORE -= 1
                     
-        rl.draw_text("Score: " + str(SCORE), 10, 10, 20, rl.colors.BLACK)
+        rl.draw_text("SCORE", 10, 10, 20, 0, rl.colors.BLACK)
         rl.end_drawing()
 
         player..move()
@@ -88,11 +88,9 @@ while running and not rl.window_should_close()
 
 
     else if game_state == 1
-        rl.begin_drawing()
-        rl.clear_background(rl.colors.BLACK)
-        rl.draw_text("GAME OVER", 300, 250, 40, rl.colors.RED)
-        rl.draw_text("Press R to Restart", 280, 310, 20, rl.colors.GRAY)
-        rl.draw_text("SCORE", 320, 350, 20, rl.colors.DARKBLUE)
+        rl.draw_text("GAME OVER", 300, 250, 40, 0, rl.colors.RED)
+        rl.draw_text("Press R to Restart", 280, 310, 20, 0, rl.colors.GRAY)
+        rl.draw_text("SCORE", 320, 350, 20, 0, rl.colors.DARKBLUE)
 
         if rl.is_key_pressed(rl.KEY_R)
             reset_game(player, item, SCORE, game_state)
