@@ -34,22 +34,22 @@ for i in ITEM_COUNT
     push(pool, Falling_items(900, 650))
 
 running     = true
-spawn_timer = 0.0
+spawn_timer = 0
 spawn_index = 0
 while running and not rl.window_should_close()
     dt = rl.delta_time()
 
     if game_state == 0
         if spawn_index < ITEM_COUNT
-            spawn_timer += dt
-            if spawn_timer >= 1.0
+            spawn_timer += 1
+            if spawn_timer >= 100
                 item = pool[spawn_index]
                 item.body.x = rand_range(20, WIDTH - 20)
                 item.body.y = 0
                 item.active = true
                 push(falling_items, item)
                 spawn_index += 1
-                spawn_timer = 0.0
+                spawn_timer = 0
 
 
         rl.begin_drawing()
@@ -98,7 +98,7 @@ while running and not rl.window_should_close()
             reset_game(player, item, SCORE, game_state)
             falling_items.clear()
             spawn_index = 0
-            spawn_timer = 0.0
+            spawn_timer = 0
 
 
 rl.close_window()
