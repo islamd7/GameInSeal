@@ -5,9 +5,3 @@ define rand_range(first, last)
 	return random.rand() % (last - first) + first
 
 random.srand(time())
-
-print(rand_range(3, 21))
-print(rand_range(3, 21))
-print(rand_range(3, 21))
-print(rand_range(3, 21))
-// enemy_x = rand_range(10,700) // why is it problem?

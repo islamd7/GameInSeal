@@ -113,9 +113,7 @@ while running and not rl.window_should_close()
             BEST_SCORE = SCORE
 
         if SCORE < 0
-            print("Game over")
             game_state = STATE_GAME_OVER
-        print(SCORE)
 
         if rl.is_key_pressed(rl.keys.KEY_P)
             game_state = STATE_PAUSE
@@ -123,7 +121,7 @@ while running and not rl.window_should_close()
         rl.begin_drawing()
         rl.clear_background(rl.colors.WHITE)
         rl.end_drawing()
-        rl.draw_text(font, "PAUSED", rl.Vector2(280, 250), 40, 0, rl.colors.DARKGRAY)
+        rl.draw_text(font, "PAUSED", rl.Vector2(290, 250), 40, 0, rl.colors.DARKGRAY)
         rl.draw_text(font, "Press P to Resume", rl.Vector2(280, 310), 20, 0, rl.colors.GRAY)
         rl.draw_text(font, "SCORE: " + str(SCORE), rl.Vector2(320, 350), 20, 0, rl.colors.DARKBLUE)
         rl.draw_text(font, "BEST SCORE: " + str(BEST_SCORE), rl.Vector2(280, 390), 20, 0, rl.colors.DARKBLUE)
