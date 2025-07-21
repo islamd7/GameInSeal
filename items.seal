@@ -5,7 +5,7 @@ define Falling_items(X, Y)
     falling_items = {
         body            = rl.Rectangle(X, Y, 32, 32),
         tex             = rl.load_texture("stone.png"),
-        speed           = 3,
+        speed           = 2,
         active          = false,
         return_timer    = 0,
         collision_timer = 0 

@@ -4,13 +4,16 @@ include player: Player
 include items: Falling_items
 include randrange: rand_range
 
-STATE_PLAYING   = 0
-STATE_GAME_OVER = 1
-STATE_PAUSE     = 2
+STATE_STARTING  = 0
+STATE_PLAYING   = 1
+STATE_GAME_OVER = 2
+STATE_PAUSE     = 3
 
 
 SCORE = 0
-game_state = STATE_PLAYING
+BEST_SCORE = 0
+
+game_state = STATE_STARTING
  
 rl.init_window(WIDTH, HEIGHT, TITLE)
 rl.set_fps(FPS)
@@ -50,7 +53,21 @@ spawn_index = 0
 while running and not rl.window_should_close()
     dt = rl.delta_time()
 
-    if game_state == STATE_PLAYING
+    if game_state == STATE_STARTING
+        rl.begin_drawing()
+        rl.clear_background(rl.colors.WHITE)
+        rl.draw_text(font, "Press SPACE to Start", rl.Vector2(130, 250), 40, 0, rl.colors.DARKGRAY)
+        rl.draw_text(font, "Use LEFT and RIGHT arrows to move", rl.Vector2(170, 310), 20, 0, rl.colors.GRAY)
+        rl.draw_text(font, "Press P to Pause", rl.Vector2(280, 360), 20, 0, rl.colors.GRAY)
+        rl.draw_text(font, "Press R to Restart", rl.Vector2(280, 400), 20, 0, rl.colors.GRAY)
+        rl.draw_text(font, "Press ESC to Exit", rl.Vector2(280, 440), 20, 0, rl.colors.GRAY)
+        rl.draw_text(font, "", rl.Vector2(320, 350), 20, 0, rl.colors.DARKBLUE)
+        rl.end_drawing()
+
+        if rl.is_key_pressed(rl.keys.KEY_SPACE)
+            game_state = STATE_PLAYING
+
+    else if game_state == STATE_PLAYING
         if spawn_index < ITEM_COUNT
             spawn_timer += 1
             if spawn_timer >= 100
@@ -75,12 +92,12 @@ while running and not rl.window_should_close()
                     print("Collision has been detected.")
                     SCORE += 1
                     falling_item.body.x = rand_range(20, WIDTH - 20)
-                    falling_item.body.y = rand_range(-200, -50)
+                    falling_item.body.y = rand_range(-200, -100)
                     skip
                     
                 if falling_item.body.y > HEIGHT
                     falling_item.body.x = rand_range(20, WIDTH - 20)
-                    falling_item.body.y = rand_range(-200, -50)
+                    falling_item.body.y = rand_range(-200, -100)
                     SCORE -= 1
 
         rl.draw_text(font, "SCORE: " + str(SCORE), rl.Vector2(10, 10), 20, 0, rl.colors.BLACK)
@@ -88,6 +105,8 @@ while running and not rl.window_should_close()
 
         player..move()
 
+        if SCORE >= BEST_SCORE
+            BEST_SCORE = SCORE
 
         if SCORE < 0
             print("Game over")
@@ -100,9 +119,10 @@ while running and not rl.window_should_close()
         rl.begin_drawing()
         rl.clear_background(rl.colors.WHITE)
         rl.end_drawing()
-        rl.draw_text(font, "PAUSED", rl.Vector2(275, 250), 40, 0, rl.colors.DARKGRAY)
+        rl.draw_text(font, "PAUSED", rl.Vector2(280, 250), 40, 0, rl.colors.DARKGRAY)
         rl.draw_text(font, "Press P to Resume", rl.Vector2(280, 310), 20, 0, rl.colors.GRAY)
         rl.draw_text(font, "SCORE: " + str(SCORE), rl.Vector2(320, 350), 20, 0, rl.colors.DARKBLUE)
+        rl.draw_text(font, "BEST SCORE: " + str(BEST_SCORE), rl.Vector2(280, 390), 20, 0, rl.colors.DARKBLUE)
 
         if rl.is_key_pressed(rl.keys.KEY_P)
             game_state = STATE_PLAYING
@@ -114,6 +134,7 @@ while running and not rl.window_should_close()
         rl.end_drawing()
         rl.draw_text(font, "GAME OVER",rl.Vector2(275, 250), 40, 0, rl.colors.RED)
         rl.draw_text(font, "Press R to Restart", rl.Vector2(280, 310), 20, 0, rl.colors.GRAY)
+        rl.draw_text(font, "BEST SCORE: " + str(BEST_SCORE), rl.Vector2(310, 350), 20, 0, rl.colors.DARKBLUE)
 
         if rl.is_key_pressed(rl.keys.KEY_R)
             reset_game(player, item, SCORE, spawn_timer)
@@ -125,7 +146,7 @@ while running and not rl.window_should_close()
                 pop(pool)
             for i in ITEM_COUNT
                 push(pool, Falling_items(900, 650))
-    
+            falling_items = []
 
 
 
