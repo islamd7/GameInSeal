@@ -14,6 +14,8 @@ game_state = STATE_PLAYING
 rl.init_window(WIDTH, HEIGHT, TITLE)
 rl.set_fps(FPS)
 
+font = rl.load_font("joystix/joystix monospace.otf", 256)
+
 player        = Player(360, 500)
 falling_items = []
 pool          = []
@@ -24,9 +26,14 @@ define check_collision(rec1, rec2)
     else
         return false
 
-define reset_game(player, item, SCORE, game_state)
+define reset_game(player, falling_items, SCORE, game_state, STATE_PLAYING)
     player.x = 360
     SCORE = 0
+    for falling_item in falling_items
+        falling_item.active = true
+        falling_item.body.x = rand_range(20, WIDTH - 20)
+        falling_item.body.y = 0
+        falling_item.return_timer = 0
     game_state = STATE_PLAYING
 
 
@@ -75,7 +82,7 @@ while running and not rl.window_should_close()
                         falling_item.return_timer = 0
                         SCORE -= 1
 
-        rl.draw_text("SCORE", 10, 10, 20, rl.colors.BLACK)
+        // rl.draw_text(font, "SCORE" + str(SCORE), rl.Vector(10, 10), 20, rl.colors.BLACK)
         rl.end_drawing()
 
         player..move()
@@ -88,13 +95,12 @@ while running and not rl.window_should_close()
 
 
     else if game_state == 1
-        rl.draw_text("GAME OVER", 300, 250, 40, rl.colors.RED)
-        rl.draw_text("Press R to Restart", 280, 310, 20, rl.colors.GRAY)
-        rl.draw_text("SCORE", 320, 350, 20, rl.colors.DARKBLUE)
+        // rl.draw_text(font, "GAME OVER",rl.Vector2(300, 250), 40, 0, rl.colors.RED)
+        // rl.draw_text(font, "Press R to Restart", rl.Vector(280, 310), 20, 0, rl.colors.GRAY)
+        // rl.draw_text(font, "SCORE", rl.Vector(320, 350), 20, 0, rl.colors.DARKBLUE)
 
-        if rl.is_key_pressed(rl.KEY_R)
+        if rl.is_key_pressed(rl.keys.KEY_R)
             reset_game(player, item, SCORE, game_state)
-            falling_items.clear()
             spawn_index = 0
             spawn_timer = 0
 
