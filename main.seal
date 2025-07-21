@@ -13,9 +13,6 @@ STATE_PAUSE     = 3
 
 SCORE = 0
 BEST_SCORE = 0
-file = io.File("best_score.txt", "w")
-file..write(str(BEST_SCORE))
-file..close()
 
 game_state = STATE_STARTING
  
@@ -137,6 +134,10 @@ while running and not rl.window_should_close()
         rl.draw_text(font, "GAME OVER",rl.Vector2(275, 250), 40, 0, rl.colors.RED)
         rl.draw_text(font, "Press R to Restart", rl.Vector2(280, 310), 20, 0, rl.colors.GRAY)
         rl.draw_text(font, "BEST SCORE: " + str(BEST_SCORE), rl.Vector2(310, 350), 20, 0, rl.colors.DARKBLUE)
+
+        file = io.File("best_score.txt", "w")
+        file..write(str(BEST_SCORE))
+        file..close()
 
         if rl.is_key_pressed(rl.keys.KEY_R)
             reset_game(player, item, SCORE, spawn_timer)
