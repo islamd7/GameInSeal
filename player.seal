@@ -3,7 +3,7 @@ include raylib as rl
 define Player(X, Y)
 	player = {
 		body  = rl.Rectangle(X, Y, 80, 80), // x = 360, y = 500
-		tex   = rl.load_texture("bucket.png"),
+		tex   = rl.load_texture("assets/bucket.png"),
 		speed = 7
 	}
 	

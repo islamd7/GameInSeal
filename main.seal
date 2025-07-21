@@ -3,6 +3,7 @@ include config: WIDTH, HEIGHT, TITLE, FPS, ITEM_COUNT
 include player: Player
 include items: Falling_items
 include randrange: rand_range
+include io
 
 STATE_STARTING  = 0
 STATE_PLAYING   = 1
@@ -12,6 +13,9 @@ STATE_PAUSE     = 3
 
 SCORE = 0
 BEST_SCORE = 0
+file = io.File("best_score.txt", "w")
+file..write(str(BEST_SCORE))
+file..close()
 
 game_state = STATE_STARTING
  
@@ -52,7 +56,7 @@ spawn_timer = 0
 spawn_index = 0
 while running and not rl.window_should_close()
     dt = rl.delta_time()
-
+    
     if game_state == STATE_STARTING
         rl.begin_drawing()
         rl.clear_background(rl.colors.WHITE)
@@ -147,7 +151,6 @@ while running and not rl.window_should_close()
             for i in ITEM_COUNT
                 push(pool, Falling_items(900, 650))
             falling_items = []
-
 
 
 rl.close_window()

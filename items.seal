@@ -4,7 +4,7 @@ include randrange: rand_range
 define Falling_items(X, Y)
     falling_items = {
         body            = rl.Rectangle(X, Y, 32, 32),
-        tex             = rl.load_texture("stone.png"),
+        tex             = rl.load_texture("assets/stone.png"),
         speed           = 2,
         active          = false,
         return_timer    = 0,
