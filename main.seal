@@ -31,7 +31,7 @@ define check_collision(rec1, rec2)
     else
         return false
 
-define reset_game(player, falling_items, SCORE)
+define reset_game(player, falling_items, SCORE, spawn_timer)
     player.x = 360
     for falling_item in falling_items
         falling_item.active = true
@@ -68,23 +68,20 @@ while running and not rl.window_should_close()
 
         player..draw()
         for falling_item in falling_items
-            if falling_item.active = true
+            if falling_item.active == true
                 falling_item..draw()
                 falling_item..move()
                 if check_collision(falling_item, player)
                     print("Collision has been detected.")
                     SCORE += 1
                     falling_item.body.x = rand_range(20, WIDTH - 20)
-                    falling_item.body.y = 0
+                    falling_item.body.y = rand_range(-200, -50)
                     skip
                     
                 if falling_item.body.y > HEIGHT
-                    falling_item.return_timer += 1
-                    if falling_item.return_timer == 100
-                        falling_item.body.x = rand_range(20, WIDTH - 20)
-                        falling_item.body.y = 0
-                        falling_item.return_timer = 0
-                        SCORE -= 1
+                    falling_item.body.x = rand_range(20, WIDTH - 20)
+                    falling_item.body.y = rand_range(-200, -50)
+                    SCORE -= 1
 
         rl.draw_text(font, "SCORE: " + str(SCORE), rl.Vector2(10, 10), 20, 0, rl.colors.BLACK)
         rl.end_drawing()
@@ -105,7 +102,7 @@ while running and not rl.window_should_close()
         rl.end_drawing()
         rl.draw_text(font, "PAUSED", rl.Vector2(275, 250), 40, 0, rl.colors.DARKGRAY)
         rl.draw_text(font, "Press P to Resume", rl.Vector2(280, 310), 20, 0, rl.colors.GRAY)
-        rl.draw_text(font, "SCORE", rl.Vector2(320, 350), 20, 0, rl.colors.DARKBLUE)
+        rl.draw_text(font, "SCORE: " + str(SCORE), rl.Vector2(320, 350), 20, 0, rl.colors.DARKBLUE)
 
         if rl.is_key_pressed(rl.keys.KEY_P)
             game_state = STATE_PLAYING
@@ -117,14 +114,19 @@ while running and not rl.window_should_close()
         rl.end_drawing()
         rl.draw_text(font, "GAME OVER",rl.Vector2(275, 250), 40, 0, rl.colors.RED)
         rl.draw_text(font, "Press R to Restart", rl.Vector2(280, 310), 20, 0, rl.colors.GRAY)
-        rl.draw_text(font, "SCORE", rl.Vector2(320, 350), 20, 0, rl.colors.DARKBLUE)
 
         if rl.is_key_pressed(rl.keys.KEY_R)
-            reset_game(player, item, SCORE)
+            reset_game(player, item, SCORE, spawn_timer)
             game_state = STATE_PLAYING
             spawn_index = 0
             spawn_timer = 0
             SCORE = 0
+            while len(pool) > 0
+                pop(pool)
+            for i in ITEM_COUNT
+                push(pool, Falling_items(900, 650))
+    
+
 
 
 rl.close_window()
