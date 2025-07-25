@@ -20,6 +20,8 @@ rl.init_window(WIDTH, HEIGHT, TITLE)
 rl.set_fps(FPS)
 
 font = rl.load_font("joystix/joystix monospace.otf", 256)
+background = rl.load_texture("assets/background.png")
+
 
 player        = Player(360, 500)
 falling_items = []
@@ -54,16 +56,20 @@ spawn_index = 0
 while running and not rl.window_should_close()
     dt = rl.delta_time()
     
+    rl.begin_drawing()
+    rl.clear_background(rl.colors.WHITE)
+    rl.draw_texture(background,
+    rl.Rectangle(0, 0, 1366, 1024),
+     rl.Rectangle(0, 0, WIDTH, HEIGHT),
+      rl.colors.WHITE)
+
     if game_state == STATE_STARTING
-        rl.begin_drawing()
-        rl.clear_background(rl.colors.WHITE)
         rl.draw_text(font, "Press SPACE to Start", rl.Vector2(130, 250), 40, 0, rl.colors.DARKGRAY)
         rl.draw_text(font, "Use LEFT and RIGHT arrows to move", rl.Vector2(170, 310), 20, 0, rl.colors.GRAY)
         rl.draw_text(font, "Press P to Pause", rl.Vector2(280, 360), 20, 0, rl.colors.GRAY)
         rl.draw_text(font, "Press R to Restart", rl.Vector2(280, 400), 20, 0, rl.colors.GRAY)
         rl.draw_text(font, "Press ESC to Exit", rl.Vector2(280, 440), 20, 0, rl.colors.GRAY)
         rl.draw_text(font, "", rl.Vector2(320, 350), 20, 0, rl.colors.DARKBLUE)
-        rl.end_drawing()
 
         if rl.is_key_pressed(rl.keys.KEY_SPACE)
             game_state = STATE_PLAYING
@@ -81,8 +87,6 @@ while running and not rl.window_should_close()
                 spawn_timer = 0
 
 
-        rl.begin_drawing()
-        rl.clear_background(rl.colors.WHITE)
 
         player..draw()
         for falling_item in falling_items
@@ -102,7 +106,6 @@ while running and not rl.window_should_close()
                     SCORE -= 1
 
         rl.draw_text(font, "SCORE: " + str(SCORE), rl.Vector2(10, 10), 20, 0, rl.colors.BLACK)
-        rl.end_drawing()
 
         player..move()
 
@@ -115,9 +118,6 @@ while running and not rl.window_should_close()
         if rl.is_key_pressed(rl.keys.KEY_P)
             game_state = STATE_PAUSE
     else if game_state == STATE_PAUSE
-        rl.begin_drawing()
-        rl.clear_background(rl.colors.WHITE)
-        rl.end_drawing()
         rl.draw_text(font, "PAUSED", rl.Vector2(290, 250), 40, 0, rl.colors.DARKGRAY)
         rl.draw_text(font, "Press P to Resume", rl.Vector2(280, 310), 20, 0, rl.colors.GRAY)
         rl.draw_text(font, "SCORE: " + str(SCORE), rl.Vector2(320, 350), 20, 0, rl.colors.DARKBLUE)
@@ -128,9 +128,6 @@ while running and not rl.window_should_close()
 
     
     else if game_state == STATE_GAME_OVER
-        rl.begin_drawing()
-        rl.clear_background(rl.colors.WHITE)
-        rl.end_drawing()
         rl.draw_text(font, "GAME OVER",rl.Vector2(275, 250), 40, 0, rl.colors.RED)
         rl.draw_text(font, "Press R to Restart", rl.Vector2(280, 310), 20, 0, rl.colors.GRAY)
         rl.draw_text(font, "BEST SCORE: " + str(BEST_SCORE), rl.Vector2(310, 350), 20, 0, rl.colors.DARKBLUE)
@@ -150,6 +147,6 @@ while running and not rl.window_should_close()
             for i in ITEM_COUNT
                 push(pool, Falling_items(900, 650))
             falling_items = []
-
+    rl.end_drawing()
 
 rl.close_window()
