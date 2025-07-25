@@ -64,11 +64,11 @@ while running and not rl.window_should_close()
       rl.colors.WHITE)
 
     if game_state == STATE_STARTING
-        rl.draw_text(font, "Press SPACE to Start", rl.Vector2(130, 250), 40, 0, rl.colors.DARKGRAY)
-        rl.draw_text(font, "Use LEFT and RIGHT arrows to move", rl.Vector2(170, 310), 20, 0, rl.colors.GRAY)
-        rl.draw_text(font, "Press P to Pause", rl.Vector2(280, 360), 20, 0, rl.colors.GRAY)
-        rl.draw_text(font, "Press R to Restart", rl.Vector2(280, 400), 20, 0, rl.colors.GRAY)
-        rl.draw_text(font, "Press ESC to Exit", rl.Vector2(280, 440), 20, 0, rl.colors.GRAY)
+        rl.draw_text(font, "Press SPACE to Start", rl.Vector2(130, 250), 40, 0, rl.colors.WHITE)
+        rl.draw_text(font, "Use LEFT and RIGHT arrows to move", rl.Vector2(170, 310), 20, 0, rl.colors.WHITE)
+        rl.draw_text(font, "Press P to Pause", rl.Vector2(280, 360), 20, 0, rl.colors.WHITE)
+        rl.draw_text(font, "Press R to Restart", rl.Vector2(280, 400), 20, 0, rl.colors.WHITE)
+        rl.draw_text(font, "Press ESC to Exit", rl.Vector2(280, 440), 20, 0, rl.colors.WHITE)
         rl.draw_text(font, "", rl.Vector2(320, 350), 20, 0, rl.colors.DARKBLUE)
 
         if rl.is_key_pressed(rl.keys.KEY_SPACE)
