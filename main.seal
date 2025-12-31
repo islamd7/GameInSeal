@@ -4,6 +4,7 @@ include player: Player
 include items: Falling_items
 include randrange: rand_range
 include io
+include os
 
 STATE_STARTING  = 0
 STATE_PLAYING   = 1
@@ -13,6 +14,10 @@ STATE_PAUSE     = 3
 
 SCORE = 0
 BEST_SCORE = 0
+if os.exist("best_score.txt")
+    file = io.File("best_score.txt", "r")
+    BEST_SCORE = int(file..read())
+    file..close()
 
 game_state = STATE_STARTING
  
@@ -59,9 +64,9 @@ while running and not rl.window_should_close()
     rl.begin_drawing()
     rl.clear_background(rl.colors.WHITE)
     rl.draw_texture(background,
-    rl.Rectangle(0, 0, 1366, 1024),
-     rl.Rectangle(0, 0, WIDTH, HEIGHT),
-      rl.colors.WHITE)
+                    rl.Rectangle(0, 0, 1366, 1024),
+                    rl.Rectangle(0, 0, WIDTH, HEIGHT),
+                    rl.colors.WHITE)
 
     if game_state == STATE_STARTING
         rl.draw_text(font, "Press SPACE to Start", rl.Vector2(130, 250), 40, 0, rl.colors.WHITE)
